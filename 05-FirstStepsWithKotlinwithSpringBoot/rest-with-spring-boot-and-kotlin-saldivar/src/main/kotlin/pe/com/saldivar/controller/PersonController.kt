@@ -25,14 +25,14 @@ class PersonController {
 
     @GetMapping(produces = [MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML,MediaType.APPLICATION_YML])
     fun finAll(): List<PersonVO> {
-        return service.finAll()
+        return service.findAll()
     }
 
     @GetMapping(value= ["/{id}"],produces = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YML])
     fun finById(
         @PathVariable(value = "id") id: Long,
     ): PersonVO {
-        return service.finById(id)
+        return service.findById(id)
     }
 
     @PostMapping(

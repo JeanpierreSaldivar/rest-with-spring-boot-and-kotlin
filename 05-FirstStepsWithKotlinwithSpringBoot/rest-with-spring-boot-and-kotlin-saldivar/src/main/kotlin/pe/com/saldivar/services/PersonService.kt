@@ -5,6 +5,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.stereotype.Service
 import pe.com.saldivar.controller.PersonController
 import pe.com.saldivar.data.vo.v1.PersonVO
+import pe.com.saldivar.exceptions.RequiredObjectIsNullException
 import pe.com.saldivar.data.vo.v2.PersonVO as PersonVOV2
 import pe.com.saldivar.exceptions.ResourceNotFoundException
 import pe.com.saldivar.mapper.DozerMapper
@@ -23,7 +24,7 @@ class PersonService {
     private  lateinit var mapper : PersonMapper
 
     private val logger = Logger.getLogger(PersonService::class.java.name)
-    fun finAll(): List<PersonVO> {
+    fun findAll(): List<PersonVO> {
         logger.info("Finding all person!")
         val persons = repository.findAll()
         val vos = DozerMapper.parseListObjects(persons, PersonVO::class.java)
@@ -34,7 +35,7 @@ class PersonService {
         return  vos
     }
 
-    fun finById(id: Long): PersonVO {
+    fun findById(id: Long): PersonVO {
         logger.info("Finding one personwith ID $id!")
         val person = repository.findById(id)
             .orElseThrow {
@@ -46,7 +47,8 @@ class PersonService {
         return personVO
     }
 
-    fun create(person : PersonVO): PersonVO{
+    fun create(person : PersonVO?): PersonVO{
+        if(person == null) throw RequiredObjectIsNullException()
         logger.info("Creating one person with name ${person.firstName}!")
         val entity : Person = DozerMapper.parseObject(person, Person::class.java)
         val personVO: PersonVO = DozerMapper.parseObject(repository.save(entity), PersonVO::class.java)
@@ -61,7 +63,8 @@ class PersonService {
         return mapper.mapEntityToVO(repository.save(entity))
     }
 
-    fun update(person : PersonVO) : PersonVO {
+    fun update(person : PersonVO?) : PersonVO {
+        if(person == null) throw RequiredObjectIsNullException()
         logger.info("Updating one person with ID ${person.key}!")
         val entity = repository.findById(person.key)
             .orElseThrow {
