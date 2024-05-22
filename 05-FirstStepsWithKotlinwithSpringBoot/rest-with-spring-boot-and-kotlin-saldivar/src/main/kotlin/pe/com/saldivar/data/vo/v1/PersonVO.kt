@@ -3,6 +3,10 @@ package pe.com.saldivar.data.vo.v1
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
+import com.github.dozermapper.core.Mapping
+import org.hibernate.metamodel.RepresentationMode
+import org.springframework.hateoas.RepresentationModel
+import org.yaml.snakeyaml.representer.Represent
 
 /*@JsonPropertyOrder(
     "id",
@@ -12,7 +16,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder
     "gender"
 )*/
 data class PersonVO(
-    var id : Long = 0,
+
+    @Mapping("id")
+    var key : Long = 0,
    // @field:JsonProperty("first_name")
     var firstName : String = "",
    // @field:JsonProperty("last_name")
@@ -20,4 +26,4 @@ data class PersonVO(
     var address : String = "",
     //@field:JsonIgnore
     var gender : String = "",
-)
+): RepresentationModel<PersonVO>()
