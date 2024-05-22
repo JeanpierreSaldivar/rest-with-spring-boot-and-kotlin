@@ -1,7 +1,6 @@
 package pe.com.saldivar.controller
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 import pe.com.saldivar.data.vo.v1.PersonVO
 import pe.com.saldivar.data.vo.v2.PersonVO as PersonVOV2
 import pe.com.saldivar.services.PersonService
+import pe.com.saldivar.util.MediaType
 
 @RestController
 @RequestMapping("api/person/v1")
@@ -23,13 +23,12 @@ class PersonController {
     private lateinit var service : PersonService
     // var service : PersonService = PersonService()
 
-    @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE])
+    @GetMapping(produces = [MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML,MediaType.APPLICATION_YML])
     fun finAll(): List<PersonVO> {
-
         return service.finAll()
     }
 
-    @GetMapping(value= ["/{id}"],produces = [MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE])
+    @GetMapping(value= ["/{id}"],produces = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YML])
     fun finById(
         @PathVariable(value = "id") id: Long,
     ): PersonVO {
@@ -37,8 +36,8 @@ class PersonController {
     }
 
     @PostMapping(
-        consumes = [MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE],
-        produces = [MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE])
+        consumes = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YML],
+        produces = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YML])
     fun create(
         @RequestBody person: PersonVO
     ): PersonVO {
@@ -46,8 +45,8 @@ class PersonController {
     }
 
     @PostMapping(value= ["/v2"],
-        consumes = [MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE],
-        produces = [MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE])
+        consumes = [MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML,MediaType.APPLICATION_YML],
+        produces = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YML])
     fun createV2(
         @RequestBody person: PersonVOV2
     ): PersonVOV2 {
@@ -55,8 +54,8 @@ class PersonController {
     }
 
     @PutMapping(
-        consumes = [MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE],
-        produces = [MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE])
+        consumes = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YML],
+        produces = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YML])
     fun update(
         @RequestBody person: PersonVO
     ): PersonVO {
@@ -64,7 +63,7 @@ class PersonController {
     }
 
     @DeleteMapping(value= ["/{id}"],
-        produces = [MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE])
+        produces = [MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YML])
     fun delete(
         @PathVariable(value = "id") id: Long,
     ): ResponseEntity<Any> {
